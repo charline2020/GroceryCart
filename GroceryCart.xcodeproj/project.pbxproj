@@ -14,6 +14,7 @@
 		A922CC702C769A4700FD450C /* GroceryCartTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A922CC6F2C769A4700FD450C /* GroceryCartTests.swift */; };
 		A922CC7A2C769A4700FD450C /* GroceryCartUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A922CC792C769A4700FD450C /* GroceryCartUITests.swift */; };
 		A922CC7C2C769A4700FD450C /* GroceryCartUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A922CC7B2C769A4700FD450C /* GroceryCartUITestsLaunchTests.swift */; };
+		A922CC892C769C9800FD450C /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A922CC882C769C9800FD450C /* DetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		A922CC752C769A4700FD450C /* GroceryCartUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GroceryCartUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A922CC792C769A4700FD450C /* GroceryCartUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryCartUITests.swift; sourceTree = "<group>"; };
 		A922CC7B2C769A4700FD450C /* GroceryCartUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryCartUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		A922CC882C769C9800FD450C /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				A922CC5D2C769A4600FD450C /* GroceryCartApp.swift */,
 				A922CC5F2C769A4600FD450C /* ContentView.swift */,
 				A922CC612C769A4700FD450C /* Assets.xcassets */,
+				A922CC882C769C9800FD450C /* DetailView.swift */,
 				A922CC662C769A4700FD450C /* GroceryCart.entitlements */,
 				A922CC632C769A4700FD450C /* Preview Content */,
 			);
@@ -260,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A922CC602C769A4600FD450C /* ContentView.swift in Sources */,
+				A922CC892C769C9800FD450C /* DetailView.swift in Sources */,
 				A922CC5E2C769A4600FD450C /* GroceryCartApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
