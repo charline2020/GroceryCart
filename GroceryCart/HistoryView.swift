@@ -30,39 +30,98 @@ struct HistoryView: View {
                     content: {
                         VStack(content: {
                             if let purchased = historyManager.purchasedItems[date], !purchased.isEmpty {
-                                Section(header: Text("Purchased Items")
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.blue)
-                                    .font(.system(size: 16))
-                                    .frame(maxWidth: .infinity, alignment: .leading))
-                                {
-                                    ForEach(purchased) { item in
-                                        HStack {
-                                            Text(item.name)
-                                            Spacer()
-                                            Text("\(item.amount)")
+                                VStack{
+                                    HStack{
+                                        Text("Purchased Items")
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                                                            .fontWeight(.bold)
+                                                                            .foregroundColor(.blue)
+                                                                            .font(.system(size: 16))
+
+
+                                        Text("#")
+                                            .frame(maxWidth: .infinity, alignment: .trailing)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.blue)
+                                            .font(.system(size: 16))
+
+                                    }
+                                    Section{
+                                        ForEach(purchased) { item in
+                                            HStack {
+                                                Image(systemName: "smallcircle.fill.circle.fill")
+                                                    .font(.system(size: 6))  // Set the size of the image
+                                                Text(item.name)
+                                                Spacer()
+                                                Text("\(item.amount)")
+                                            }
                                         }
                                     }
                                 }
+                                
+//                                Section(header: Text("Purchased Items")
+//                                    .fontWeight(.bold)
+//                                    .foregroundColor(.blue)
+//                                    .font(.system(size: 16))
+//                                    .frame(maxWidth: .infinity, alignment: .leading))
+//                                {
+//                                    ForEach(purchased) { item in
+//                                        HStack {
+//                                            Text(item.name)
+//                                            Spacer()
+//                                            Text("\(item.amount)")
+//                                        }
+//                                    }
+//                                }
                             }
+                            
                             Divider()
                             
                             if let missing = historyManager.missingItems[date], !missing.isEmpty {
-                                Section(header: Text("Missing Items")
-                                    .foregroundColor(.orange)
-                                    .fontWeight(.bold)
-                                    .font(.system(size: 16))
-                                    .frame(maxWidth: .infinity, alignment: .leading))
-                                {
-                                    ForEach(missing) { item in
-                                        HStack {
-                                            Text(item.name)
-                                            Spacer()
-                                            Text("\(item.amount)")
+                                VStack{
+                                    HStack{
+                                        Text("Missing Items")
+                                            .frame(maxWidth: .infinity, alignment: .leading)
+                                                                            .fontWeight(.bold)
+                                                                            .foregroundColor(.orange)
+                                                                            .font(.system(size: 16))
+
+
+                                        Text("#")
+                                            .frame(maxWidth: .infinity, alignment: .trailing)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.orange)
+                                            .font(.system(size: 16))
+                                    }
+                                    Section{
+                                        ForEach(missing) { item in
+                                            HStack {
+                                                Image(systemName: "smallcircle.fill.circle.fill")
+                                                    .font(.system(size: 6))  // Set the size of the image
+
+
+                                                Text(item.name)
+                                                Spacer()
+                                                Text("\(item.amount)")
+                                            }
                                         }
                                     }
-                                    .listStyle(SidebarListStyle())
                                 }
+//                                Section(header: Text("Missing Items")
+//                                    .foregroundColor(.orange)
+//                                    .fontWeight(.bold)
+//                                    .font(.system(size: 16))
+//                                    .frame(maxWidth: .infinity, alignment: .leading))
+//                                {
+//                                    ForEach(missing) { item in
+//                                        HStack {
+//                                            Text(item.name)
+//                                            Spacer()
+//                                            Text("\(item.amount)")
+//                                        }
+//                                    }
+//                                    .listStyle(SidebarListStyle())
+//                                }
                             }
                             
 
@@ -82,6 +141,7 @@ struct HistoryView: View {
                             .font(.system(size: 16))
                             .bold()
                             .padding(.bottom, 5)
+                        
                     }
                 )
             }
