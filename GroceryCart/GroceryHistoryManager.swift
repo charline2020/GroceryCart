@@ -19,6 +19,36 @@ class GroceryHistoryManager: ObservableObject {
         loadItems()
     }
 
+    func loadItems() {
+        if let savedPurchased = UserDefaults.standard.data(forKey: "\(itemsKey)_purchased"),
+           let decodedPurchased = try? JSONDecoder().decode([Date: [GroceryItem]].self, from: savedPurchased)
+        {
+            purchasedItems = decodedPurchased
+
+            // Debugging output
+            print("Loaded Purchased Items: \(purchasedItems)")
+        }
+
+        if let savedMissing = UserDefaults.standard.data(forKey: "\(itemsKey)_missing"),
+           let decodedMissing = try? JSONDecoder().decode([Date: [GroceryItem]].self, from: savedMissing)
+        {
+            missingItems = decodedMissing
+
+            // Debugging output
+            print("Loaded Missing Items: \(missingItems)")
+        }
+    }
+
+    func addItem(_ item: GroceryItem) {
+        // Ensure no duplicates
+        if !items.contains(where: { $0.id == item.id }) {
+            items.append(item)
+            save()
+        } else {
+            print("Item with ID \(item.id) already exists.")
+        }
+    }
+
     // Add a single purchased item with date
     func addPurchasedItem(_ item: GroceryItem, date: Date) {
         let normalizedDate = date.withoutTime()
@@ -42,6 +72,18 @@ class GroceryHistoryManager: ObservableObject {
         save()
     }
 
+    // Remove a single item from the current list
+    func removeItem(_ item: GroceryItem) {
+        // Remove item from the current grocery list
+        items.removeAll { $0.id == item.id }
+
+        // remove item from purchased and missing items if necessary
+        let currentDate = Date()
+        removeItems([item], date: currentDate)
+
+        // Save the updated state
+        save()
+    }
 
     // Remove items for a specific date
     func removeItems(_ items: [GroceryItem], date: Date) {
@@ -60,44 +102,6 @@ class GroceryHistoryManager: ObservableObject {
         save()
     }
 
-    // Save items to UserDefaults
-    func save() {
-        let encoder = JSONEncoder()
-        if let encodedPurchased = try? encoder.encode(purchasedItems),
-           let encodedMissing = try? encoder.encode(missingItems) {
-            UserDefaults.standard.set(encodedPurchased, forKey: "\(itemsKey)_purchased")
-            UserDefaults.standard.set(encodedMissing, forKey: "\(itemsKey)_missing")
-            
-            // Debugging output
-            print("Saved Purchased Items: \(purchasedItems)")
-            print("Saved Missing Items: \(missingItems)")
-        }
-    }
-
-    func addItem(_ item: GroceryItem) {
-        // Ensure no duplicates
-        if !items.contains(where: { $0.id == item.id }) {
-            items.append(item)
-            saveItems()
-        } else {
-            print("Item with ID \(item.id) already exists.")
-        }
-    }
-
-    // Remove a single item from the current list
-    func removeItem(_ item: GroceryItem) {
-        // Remove item from the current grocery list
-        items.removeAll { $0.id == item.id }
-
-        // Optionally, also remove item from history if needed
-        // Example: remove item from purchased and missing items if necessary
-        let currentDate = Date()
-        removeItems([item], date: currentDate)
-
-        // Save the updated state
-        save()
-    }
-
     // Add missing items for a specific date
     func addMissingItems(_ items: [GroceryItem], date: Date) {
         let dateWithoutTime = date.withoutTime() // Normalize the date
@@ -109,37 +113,26 @@ class GroceryHistoryManager: ObservableObject {
         save()
     }
 
-    func saveItems() {
-        if let encoded = try? JSONEncoder().encode(items) {
-            UserDefaults.standard.set(encoded, forKey: itemsKey)
+    // Save items to UserDefaults
+    func save() {
+        let encoder = JSONEncoder()
+        if let encodedPurchased = try? encoder.encode(purchasedItems),
+           let encodedMissing = try? encoder.encode(missingItems)
+        {
+            UserDefaults.standard.set(encodedPurchased, forKey: "\(itemsKey)_purchased")
+            UserDefaults.standard.set(encodedMissing, forKey: "\(itemsKey)_missing")
+
+            // Debugging output
+            print("Saved Purchased Items: \(purchasedItems)")
+            print("Saved Missing Items: \(missingItems)")
         }
     }
 
-    func loadItems() {
-        if let savedPurchased = UserDefaults.standard.data(forKey: "\(itemsKey)_purchased"),
-           let decodedPurchased = try? JSONDecoder().decode([Date: [GroceryItem]].self, from: savedPurchased) {
-            purchasedItems = decodedPurchased
-            
-            // Debugging output
-            print("Loaded Purchased Items: \(purchasedItems)")
-        }
-        
-        if let savedMissing = UserDefaults.standard.data(forKey: "\(itemsKey)_missing"),
-           let decodedMissing = try? JSONDecoder().decode([Date: [GroceryItem]].self, from: savedMissing) {
-            missingItems = decodedMissing
-            
-            // Debugging output
-            print("Loaded Missing Items: \(missingItems)")
-        }
-    }
-    
     // Method to clear history items for a specific day
-        func clearHistory(for date: Date) {
-            let normalizedDate = date.withoutTime()
-            purchasedItems.removeValue(forKey: normalizedDate)
-            missingItems.removeValue(forKey: normalizedDate)
-            save()
-        }
-    
-    
+    func clearHistory(for date: Date) {
+        let normalizedDate = date.withoutTime()
+        purchasedItems.removeValue(forKey: normalizedDate)
+        missingItems.removeValue(forKey: normalizedDate)
+        save()
+    }
 }
