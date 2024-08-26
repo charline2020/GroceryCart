@@ -30,27 +30,25 @@ struct HistoryView: View {
                     content: {
                         VStack(content: {
                             if let purchased = historyManager.purchasedItems[date], !purchased.isEmpty {
-                                VStack{
-                                    HStack{
+                                VStack {
+                                    HStack {
                                         Text("Purchased Items")
                                             .frame(maxWidth: .infinity, alignment: .leading)
-                                                                            .fontWeight(.bold)
-                                                                            .foregroundColor(.blue)
-                                                                            .font(.system(size: 16))
-
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.blue)
+                                            .font(.system(size: 16))
 
                                         Text("#")
                                             .frame(maxWidth: .infinity, alignment: .trailing)
                                             .fontWeight(.bold)
                                             .foregroundColor(.blue)
                                             .font(.system(size: 16))
-
                                     }
-                                    Section{
+                                    Section {
                                         ForEach(purchased) { item in
                                             HStack {
                                                 Image(systemName: "smallcircle.fill.circle.fill")
-                                                    .font(.system(size: 6))  // Set the size of the image
+                                                    .font(.system(size: 6)) // Set the size of the image
                                                 Text(item.name)
                                                 Spacer()
                                                 Text("\(item.amount)")
@@ -58,34 +56,18 @@ struct HistoryView: View {
                                         }
                                     }
                                 }
-                                
-//                                Section(header: Text("Purchased Items")
-//                                    .fontWeight(.bold)
-//                                    .foregroundColor(.blue)
-//                                    .font(.system(size: 16))
-//                                    .frame(maxWidth: .infinity, alignment: .leading))
-//                                {
-//                                    ForEach(purchased) { item in
-//                                        HStack {
-//                                            Text(item.name)
-//                                            Spacer()
-//                                            Text("\(item.amount)")
-//                                        }
-//                                    }
-//                                }
                             }
-                            
+
                             Divider()
-                            
+
                             if let missing = historyManager.missingItems[date], !missing.isEmpty {
-                                VStack{
-                                    HStack{
+                                VStack {
+                                    HStack {
                                         Text("Missing Items")
                                             .frame(maxWidth: .infinity, alignment: .leading)
-                                                                            .fontWeight(.bold)
-                                                                            .foregroundColor(.orange)
-                                                                            .font(.system(size: 16))
-
+                                            .fontWeight(.bold)
+                                            .foregroundColor(.orange)
+                                            .font(.system(size: 16))
 
                                         Text("#")
                                             .frame(maxWidth: .infinity, alignment: .trailing)
@@ -93,12 +75,11 @@ struct HistoryView: View {
                                             .foregroundColor(.orange)
                                             .font(.system(size: 16))
                                     }
-                                    Section{
+                                    Section {
                                         ForEach(missing) { item in
                                             HStack {
                                                 Image(systemName: "smallcircle.fill.circle.fill")
-                                                    .font(.system(size: 6))  // Set the size of the image
-
+                                                    .font(.system(size: 6)) // Set the size of the image
 
                                                 Text(item.name)
                                                 Spacer()
@@ -107,27 +88,10 @@ struct HistoryView: View {
                                         }
                                     }
                                 }
-//                                Section(header: Text("Missing Items")
-//                                    .foregroundColor(.orange)
-//                                    .fontWeight(.bold)
-//                                    .font(.system(size: 16))
-//                                    .frame(maxWidth: .infinity, alignment: .leading))
-//                                {
-//                                    ForEach(missing) { item in
-//                                        HStack {
-//                                            Text(item.name)
-//                                            Spacer()
-//                                            Text("\(item.amount)")
-//                                        }
-//                                    }
-//                                    .listStyle(SidebarListStyle())
-//                                }
                             }
-                            
 
                         })
                         .padding()
-
                         .background()
                         .overlay(
                             RoundedRectangle(cornerRadius: 3)
@@ -141,12 +105,12 @@ struct HistoryView: View {
                             .font(.system(size: 16))
                             .bold()
                             .padding(.bottom, 5)
-                        
                     }
                 )
             }
         }
-        .padding()
+        .padding(12)
+        .background()
         .onAppear {
             // Print to check data when view appears
             print("History View Purchased Items: \(historyManager.purchasedItems)")
