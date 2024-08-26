@@ -143,15 +143,6 @@ struct AddGroceryView: View {
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     
-                    Button(action: {
-                        let today = Date().withoutTime()
-                        historyManager.clearHistory(for: today)
-                    }) {
-                        Text("Clear All History")
-                            .foregroundColor(.black)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .center)
-
                     // view history
                     NavigationLink(destination: HistoryView()
                         .environmentObject(historyManager))

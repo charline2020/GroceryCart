@@ -12,110 +12,138 @@ struct HistoryView: View {
     @State private var expandedDates: Set<Date> = []
 
     var body: some View {
-        List {
-            ForEach(filteredDates(), id: \.self) { date in
-                DisclosureGroup(
-                    isExpanded: Binding(
-                        get: { expandedDates.contains(date) },
-                        set: { isExpanded in
-                            if isExpanded {
-                                expandedDates.insert(date)
-
-                            } else {
-                                expandedDates.remove(date)
-                            }
-                        }
-
-                    ),
-                    content: {
-                        VStack(content: {
-                            if let purchased = historyManager.purchasedItems[date], !purchased.isEmpty {
-                                VStack {
-                                    HStack {
-                                        Text("Purchased Items")
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .fontWeight(.bold)
-                                            .foregroundColor(.blue)
-                                            .font(.system(size: 16))
-
-                                        Text("#")
-                                            .frame(maxWidth: .infinity, alignment: .trailing)
-                                            .fontWeight(.bold)
-                                            .foregroundColor(.blue)
-                                            .font(.system(size: 16))
-                                    }
-                                    Section {
-                                        ForEach(purchased) { item in
-                                            HStack {
-                                                Image(systemName: "smallcircle.fill.circle.fill")
-                                                    .font(.system(size: 6)) // Set the size of the image
-                                                Text(item.name)
-                                                Spacer()
-                                                Text("\(item.amount)")
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                            Divider()
-
-                            if let missing = historyManager.missingItems[date], !missing.isEmpty {
-                                VStack {
-                                    HStack {
-                                        Text("Missing Items")
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .fontWeight(.bold)
-                                            .foregroundColor(.orange)
-                                            .font(.system(size: 16))
-
-                                        Text("#")
-                                            .frame(maxWidth: .infinity, alignment: .trailing)
-                                            .fontWeight(.bold)
-                                            .foregroundColor(.orange)
-                                            .font(.system(size: 16))
-                                    }
-                                    Section {
-                                        ForEach(missing) { item in
-                                            HStack {
-                                                Image(systemName: "smallcircle.fill.circle.fill")
-                                                    .font(.system(size: 6)) // Set the size of the image
-
-                                                Text(item.name)
-                                                Spacer()
-                                                Text("\(item.amount)")
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-
-                        })
-                        .padding()
-                        .background()
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 3)
-                                .stroke(.gray, lineWidth: 2)
-                                .shadow(radius: 1)
-                        )
-                    },
-
-                    label: {
-                        Text(dateFormatted(date))
-                            .font(.system(size: 16))
-                            .bold()
-                            .padding(.bottom, 5)
-                    }
-                )
+        VStack {
+            // title
+            HStack {
+                Text("Grocery Cart")
+                    .font(.system(size: 32, weight: .bold))
+                Image(systemName: "cart.circle")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 36, height: 36)
+                    .foregroundColor(.black)
             }
+            
+            List {
+                ForEach(filteredDates(), id: \.self) { date in
+                    DisclosureGroup(
+                        isExpanded: Binding(
+                            get: { expandedDates.contains(date) },
+                            set: { isExpanded in
+                                if isExpanded {
+                                    expandedDates.insert(date)
+
+                                } else {
+                                    expandedDates.remove(date)
+                                }
+                            }
+
+                        ),
+                        content: {
+                            VStack(content: {
+                                if let purchased = historyManager.purchasedItems[date], !purchased.isEmpty {
+                                    VStack {
+                                        HStack {
+                                            Text("Purchased Items")
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.blue)
+                                                .font(.system(size: 16))
+
+                                            Text("#")
+                                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.blue)
+                                                .font(.system(size: 16))
+                                        }
+                                        Section {
+                                            ForEach(purchased) { item in
+                                                HStack {
+                                                    Image(systemName: "smallcircle.fill.circle.fill")
+                                                        .font(.system(size: 6)) // Set the size of the image
+                                                    Text(item.name)
+                                                    Spacer()
+                                                    Text("\(item.amount)")
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                Divider()
+
+                                if let missing = historyManager.missingItems[date], !missing.isEmpty {
+                                    VStack {
+                                        HStack {
+                                            Text("Missing Items")
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.orange)
+                                                .font(.system(size: 16))
+
+                                            Text("#")
+                                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                                .fontWeight(.bold)
+                                                .foregroundColor(.orange)
+                                                .font(.system(size: 16))
+                                        }
+                                        Section {
+                                            ForEach(missing) { item in
+                                                HStack {
+                                                    Image(systemName: "smallcircle.fill.circle.fill")
+                                                        .font(.system(size: 6)) // Set the size of the image
+
+                                                    Text(item.name)
+                                                    Spacer()
+                                                    Text("\(item.amount)")
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                            })
+                            .padding()
+                            .background()
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 3)
+                                    .stroke(.gray, lineWidth: 2)
+                                    .shadow(radius: 1)
+                            )
+                        },
+
+                        label: {
+                            Text(dateFormatted(date))
+                                .font(.system(size: 16))
+                                .bold()
+                                .padding(.bottom, 5)
+                        }
+                    )
+                }
+            }
+            .padding(4)
+            .background()
+            .onAppear {
+                // Print to check data when view appears
+                print("History View Purchased Items: \(historyManager.purchasedItems)")
+                print("History View Missing Items: \(historyManager.missingItems)")
+            }
+            .overlay(
+                RoundedRectangle(cornerRadius: 4)
+                    .stroke(.gray, lineWidth: 2)
+                    .shadow(radius: 1)
+            )
+
+            Button(action: {
+                let today = Date().withoutTime()
+                historyManager.clearHistory(for: today)
+            }) {
+                Text("Clear All History")
+                    .foregroundColor(.black)
+            }
+            .frame(maxWidth: .infinity, alignment: .center)
         }
-        .padding(12)
-        .background()
-        .onAppear {
-            // Print to check data when view appears
-            print("History View Purchased Items: \(historyManager.purchasedItems)")
-            print("History View Missing Items: \(historyManager.missingItems)")
-        }
+        .padding()
     }
 
     // Filter dates to include only those with items
