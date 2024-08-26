@@ -12,7 +12,7 @@ struct HistoryView: View {
     @State private var expandedDates: Set<Date> = []
 
     var body: some View {
-        ScrollView {
+        List {
             ForEach(filteredDates(), id: \.self) { date in
                 DisclosureGroup(
                     isExpanded: Binding(
@@ -20,40 +20,67 @@ struct HistoryView: View {
                         set: { isExpanded in
                             if isExpanded {
                                 expandedDates.insert(date)
+
                             } else {
                                 expandedDates.remove(date)
                             }
                         }
+
                     ),
                     content: {
-                        if let purchased = historyManager.purchasedItems[date], !purchased.isEmpty {
-                            Section(header: Text("Purchased Items").font(.subheadline).frame(maxWidth: .infinity, alignment: .leading)) {
-                                ForEach(purchased) { item in
-                                    HStack {
-                                        Text(item.name)
-                                        Spacer()
-                                        Text("\(item.amount)")
+                        VStack(content: {
+                            if let purchased = historyManager.purchasedItems[date], !purchased.isEmpty {
+                                Section(header: Text("Purchased Items")
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.blue)
+                                    .font(.system(size: 16))
+                                    .frame(maxWidth: .infinity, alignment: .leading))
+                                {
+                                    ForEach(purchased) { item in
+                                        HStack {
+                                            Text(item.name)
+                                            Spacer()
+                                            Text("\(item.amount)")
+                                        }
                                     }
                                 }
                             }
-                        }
+                            Divider()
+                            
+                            if let missing = historyManager.missingItems[date], !missing.isEmpty {
+                                Section(header: Text("Missing Items")
+                                    .foregroundColor(.orange)
+                                    .fontWeight(.bold)
+                                    .font(.system(size: 16))
+                                    .frame(maxWidth: .infinity, alignment: .leading))
+                                {
+                                    ForEach(missing) { item in
+                                        HStack {
+                                            Text(item.name)
+                                            Spacer()
+                                            Text("\(item.amount)")
+                                        }
+                                    }
+                                    .listStyle(SidebarListStyle())
+                                }
+                            }
+                            
 
-                        if let missing = historyManager.missingItems[date], !missing.isEmpty {
-                            Section(header: Text("Missing Items").font(.subheadline).frame(maxWidth: .infinity, alignment: .leading)) {
-                                ForEach(missing) { item in
-                                    HStack {
-                                        Text(item.name)
-                                        Spacer()
-                                        Text("\(item.amount)")
-                                    }
-                                }
-                                .listStyle(PlainListStyle())
-                            }
-                        }
+                        })
+                        .padding()
+
+                        .background()
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 3)
+                                .stroke(.gray, lineWidth: 2)
+                                .shadow(radius: 1)
+                        )
                     },
+
                     label: {
                         Text(dateFormatted(date))
-                            .font(.headline)
+                            .font(.system(size: 16))
+                            .bold()
                             .padding(.bottom, 5)
                     }
                 )

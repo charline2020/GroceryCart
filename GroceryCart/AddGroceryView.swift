@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddGroceryView: View {
     @State private var groceryName: String = ""
-    @State private var groceryAmount: Int = 1 // Default amount is 1
+    @State private var groceryAmount: Int = 1
     @State private var purchasedItems: Set<UUID> = [] // Track purchased items by their IDs
     @EnvironmentObject var historyManager: GroceryHistoryManager
     @Environment(\.presentationMode) var presentationMode
@@ -106,6 +106,7 @@ struct AddGroceryView: View {
                                 Spacer()
                                 
                                 HStack {
+                                    // check purchased or not
                                     Button(action: {
                                         togglePurchased(item: item)
                                     }) {
@@ -114,7 +115,6 @@ struct AddGroceryView: View {
                                     }
                                     .frame(maxWidth: .infinity, alignment: .trailing)
                                                                        
-                                    
                                     Button(action: {
                                         deleteItem(item)
                                     }) {
@@ -122,8 +122,6 @@ struct AddGroceryView: View {
                                             .foregroundColor(.red)
                                     }
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                    
-                                   
                                 }
                             }
                         }
@@ -141,22 +139,24 @@ struct AddGroceryView: View {
                         finishShopping()
                     }) {
                         Text("Finish Shopping")
-                            .fontWeight(.bold)
                             .foregroundColor(.black)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
                     
-                    Button("Clear All History") {
+                    Button(action: {
                         let today = Date().withoutTime()
-                                       historyManager.clearHistory(for: today)
+                        historyManager.clearHistory(for: today)
+                    }) {
+                        Text("Clear All History")
+                            .foregroundColor(.black)
                     }
-                    
+                    .frame(maxWidth: .infinity, alignment: .center)
+
                     // view history
                     NavigationLink(destination: HistoryView()
                         .environmentObject(historyManager))
                     {
                         Text("View History")
-                            .fontWeight(.bold)
                             .foregroundColor(.black)
                     }
                     .frame(maxWidth: .infinity, alignment: .trailing)
