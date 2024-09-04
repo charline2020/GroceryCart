@@ -23,7 +23,7 @@ struct HistoryView: View {
                     .frame(width: 36, height: 36)
                     .foregroundColor(.black)
             }
-            
+
             List {
                 ForEach(filteredDates(), id: \.self) { date in
                     DisclosureGroup(

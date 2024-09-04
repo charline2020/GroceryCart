@@ -39,13 +39,24 @@ class GroceryHistoryManager: ObservableObject {
         }
     }
 
-    func addItem(_ item: GroceryItem) {
-        // Ensure no duplicates
-        if !items.contains(where: { $0.id == item.id }) {
+//    func addItem(_ item: GroceryItem) {
+    func addItem(_ item: GroceryItem) -> Bool {
+        // Normalize today's date to ensure consistency
+        let today = Calendar.current.startOfDay(for: Date())
+
+        // Check if there's a duplicate item with the same name and date
+        let isDuplicate = items.contains { existingItem in
+            existingItem.name == item.name &&
+                Calendar.current.isDate(existingItem.date, inSameDayAs: today)
+        }
+
+        if !isDuplicate {
             items.append(item)
             save()
+            return true // Indicate that the item was successfully added
         } else {
-            print("Item with ID \(item.id) already exists.")
+            print("Item '\(item.name)' already exists for today.")
+            return false // Indicate that the item was a duplicate
         }
     }
 

@@ -13,6 +13,9 @@ struct AddGroceryView: View {
     @State private var purchasedItems: Set<UUID> = [] // Track purchased items by their IDs
     @EnvironmentObject var historyManager: GroceryHistoryManager
     @Environment(\.presentationMode) var presentationMode
+    @State private var showAlert = false
+    @State private var alertMessage: String = ""
+
 
     var body: some View {
         NavigationStack {
@@ -40,11 +43,22 @@ struct AddGroceryView: View {
                     }
                     
                     Button(action: {
+                        guard !groceryName.isEmpty else {
+                                return // Do nothing if groceryName is empty
+                            }
+                        
                         let newItem = GroceryItem(name: groceryName, amount: groceryAmount, date: Date())
-                        historyManager.addItem(newItem)
-                        groceryName = ""
-                        groceryAmount = 1 // Reset to default amount
-                    }) {
+                        
+                            
+                        if historyManager.addItem(newItem) {
+                            groceryName = ""
+                            groceryAmount = 1 // Reset to default amount
+                        } else {
+                            alertMessage = "This item is already in today's list."
+                            showAlert = true
+                        }
+                    })
+                    {
                         // plus icon
                         Image(systemName: "plus.circle.fill")
                             .resizable()
@@ -52,6 +66,14 @@ struct AddGroceryView: View {
                             .frame(height: 25)
                             .foregroundColor(.gray)
                     }
+                   
+                    .alert(isPresented: $showAlert) {
+                        Alert(
+                            title: Text("Alert"),
+                            message: Text(alertMessage)
+//                            dismissButton: .default(Text("OK"))
+                        )}
+                    
                 }
                 .background()
                 .overlay(
@@ -91,40 +113,43 @@ struct AddGroceryView: View {
                         
                         Divider()
                         
-                        // List of items
-                        ForEach(historyManager.items) { item in
-                            HStack {
-                                Image(systemName: "smallcircle.fill.circle.fill")
-                                Text(item.name)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                
-                                Spacer()
-                                
-                                Text("\(item.amount)")
-                                    .frame(maxWidth: .infinity, alignment: .trailing)
-                                
-                                Spacer()
-                                
+                            // List of items
+                            ForEach(historyManager.items) { item in
                                 HStack {
-                                    // check purchased or not
-                                    Button(action: {
-                                        togglePurchased(item: item)
-                                    }) {
-                                        Image(systemName: purchasedItems.contains(item.id) ? "checkmark.circle.fill" : "circle")
-                                            .foregroundColor(purchasedItems.contains(item.id) ? .green : .black)
+                                    Image(systemName: "smallcircle.fill.circle.fill")
+                                    Text(item.name)
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    
+                                    Spacer()
+                                    
+                                    Text("\(item.amount)")
+                                        .frame(maxWidth: .infinity, alignment: .trailing)
+                                    
+                                    Spacer()
+                                    
+                                    HStack {
+                                        // check purchased or not
+                                        Button(action: {
+                                            togglePurchased(item: item)
+                                        }) {
+                                            Image(systemName: purchasedItems.contains(item.id) ? "checkmark.circle.fill" : "circle")
+                                                .foregroundColor(purchasedItems.contains(item.id) ? .green : .black)
+                                        }
+                                        .frame(maxWidth: .infinity, alignment: .trailing)
+                                                                           
+                                        Button(action: {
+                                            deleteItem(item)
+                                        }) {
+                                            Image(systemName: "trash") // Delete icon
+                                                .foregroundColor(.red)
+                                        }
+                                        .frame(maxWidth: .infinity, alignment: .leading)
                                     }
-                                    .frame(maxWidth: .infinity, alignment: .trailing)
-                                                                       
-                                    Button(action: {
-                                        deleteItem(item)
-                                    }) {
-                                        Image(systemName: "trash") // Delete icon
-                                            .foregroundColor(.red)
-                                    }
-                                    .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                             }
-                        }
+                            
+                            
+                        
                     }
                 }
                 .overlay(
