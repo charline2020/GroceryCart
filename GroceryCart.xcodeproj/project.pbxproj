@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A921E7592C88B819002AC001 /* GroceryRepeatAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A921E7582C88B819002AC001 /* GroceryRepeatAlertView.swift */; };
 		A922CC5E2C769A4600FD450C /* GroceryCartApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A922CC5D2C769A4600FD450C /* GroceryCartApp.swift */; };
 		A922CC602C769A4600FD450C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A922CC5F2C769A4600FD450C /* ContentView.swift */; };
 		A922CC622C769A4700FD450C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A922CC612C769A4700FD450C /* Assets.xcassets */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A921E7582C88B819002AC001 /* GroceryRepeatAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryRepeatAlertView.swift; sourceTree = "<group>"; };
 		A922CC5A2C769A4600FD450C /* GroceryCart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GroceryCart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A922CC5D2C769A4600FD450C /* GroceryCartApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroceryCartApp.swift; sourceTree = "<group>"; };
 		A922CC5F2C769A4600FD450C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 				A988DAA72C7907F500C14828 /* HistoryView.swift */,
 				A922CC612C769A4700FD450C /* Assets.xcassets */,
 				A922CC632C769A4700FD450C /* Preview Content */,
+				A921E7582C88B819002AC001 /* GroceryRepeatAlertView.swift */,
 			);
 			path = GroceryCart;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 			files = (
 				A988DAA82C7907F500C14828 /* HistoryView.swift in Sources */,
 				A922CC602C769A4600FD450C /* ContentView.swift in Sources */,
+				A921E7592C88B819002AC001 /* GroceryRepeatAlertView.swift in Sources */,
 				A988DAA52C78F9B500C14828 /* AddGroceryView.swift in Sources */,
 				A988DAA32C78F77B00C14828 /* GroceryHistoryManager.swift in Sources */,
 				A988DAA12C78F68600C14828 /* GroceryItem.swift in Sources */,

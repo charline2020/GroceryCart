@@ -13,6 +13,7 @@ struct AddGroceryView: View {
     @State private var purchasedItems: Set<UUID> = [] // Track purchased items by their IDs
     @EnvironmentObject var historyManager: GroceryHistoryManager
     @Environment(\.presentationMode) var presentationMode
+    @State private var showAlert = false
 
     var body: some View {
         NavigationStack {
@@ -40,10 +41,19 @@ struct AddGroceryView: View {
                     }
                     
                     Button(action: {
+//                        let newItem = GroceryItem(name: groceryName, amount: groceryAmount, date: Date())
+//
+//                        historyManager.addItem(newItem)
+//                        groceryName = ""
+//                        groceryAmount = 1 // Reset to default amount
                         let newItem = GroceryItem(name: groceryName, amount: groceryAmount, date: Date())
-                        historyManager.addItem(newItem)
-                        groceryName = ""
-                        groceryAmount = 1 // Reset to default amount
+                            
+                        if historyManager.addItem(newItem) {
+                            groceryName = ""
+                            groceryAmount = 1 // Reset to default amount
+                        } else {
+                            showAlert = true
+                        }
                     }) {
                         // plus icon
                         Image(systemName: "plus.circle.fill")
@@ -59,6 +69,13 @@ struct AddGroceryView: View {
                         .stroke(.gray, lineWidth: 2)
                         .shadow(radius: 1)
                 )
+                
+                if showAlert {
+                    GroceryRepeatAlertView(message: "This item is already in today's list.") {
+                        showAlert = false // Dismiss the alert
+                    }
+                    .transition(.scale)
+                }
                 
                 // list all grocery
                 List {
