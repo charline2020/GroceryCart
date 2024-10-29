@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct AddGroceryView: View {
     @State private var groceryName: String = ""
     @State private var groceryAmount: Int = 1
@@ -17,7 +16,6 @@ struct AddGroceryView: View {
     @State private var showAlert = false
     @State private var alertMessage: String = ""
 
-
     var body: some View {
         NavigationStack {
             VStack {
@@ -25,14 +23,14 @@ struct AddGroceryView: View {
                 HStack {
                     Text("Grocery Cart")
                         .font(.system(size: 32, weight: .bold))
-                        .foregroundColor(Color(hex:"#EF7B45"))
+                        .foregroundColor(Color(hex: "#1C3144"))
 
                     Image(systemName: "cart.circle")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 36, height: 36)
 //                        .foregroundColor(.black)
-                        .foregroundColor(Color(hex:"#EF7B45"))
+                        .foregroundColor(Color(hex: "#1C3144"))
                 }
                 
                 // type what to buy
@@ -44,16 +42,17 @@ struct AddGroceryView: View {
                     Stepper(value: $groceryAmount, in: 1 ... 100) {
                         Text("# \(groceryAmount)")
                             .font(.system(size: 20))
+                        
                     }
+                    
                     
                     Button(action: {
                         guard !groceryName.isEmpty else {
-                                return // Do nothing if groceryName is empty
-                            }
+                            return // Do nothing if groceryName is empty
+                        }
                         
                         let newItem = GroceryItem(name: groceryName, amount: groceryAmount, date: Date())
                         
-                            
                         if historyManager.addItem(newItem) {
                             groceryName = ""
                             groceryAmount = 1 // Reset to default amount
@@ -61,24 +60,27 @@ struct AddGroceryView: View {
                             alertMessage = "This item is already in today's list."
                             showAlert = true
                         }
-                    })
-                    {
-                        
+                    }) {
                         // plus icon
-                        Image(systemName: "plus.circle.fill")
+                        Image(systemName: "cart.badge.plus")
                             .resizable()
                             .scaledToFit()
-                            .frame(height: 25)
-                            .foregroundColor(.gray)
+                            .frame(height: 23)
+                            .foregroundColor(Color(hex: "1C3144"))
+                        
                     }
+                    .buttonStyle(PlainButtonStyle())
+                    
                     .alert(isPresented: $showAlert) {
                         Alert(
                             title: Text("Alert"),
                             message: Text(alertMessage)
 //                            dismissButton: .default(Text("OK"))
-                        )}
+                        )
+                    }
                     
                 }
+                
                 .background()
 //                .overlay(
 //                    RoundedRectangle(cornerRadius: 8)
@@ -118,43 +120,40 @@ struct AddGroceryView: View {
                         
                         Divider()
                         
-                            // List of items
-                            ForEach(historyManager.items) { item in
+                        // List of items
+                        ForEach(historyManager.items) { item in
+                            HStack {
+                                Image(systemName: "smallcircle.fill.circle.fill")
+                                Text(item.name)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    
+                                Spacer()
+                                    
+                                Text("\(item.amount)")
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                    
+                                Spacer()
+                                    
                                 HStack {
-                                    Image(systemName: "smallcircle.fill.circle.fill")
-                                    Text(item.name)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    
-                                    Spacer()
-                                    
-                                    Text("\(item.amount)")
-                                        .frame(maxWidth: .infinity, alignment: .trailing)
-                                    
-                                    Spacer()
-                                    
-                                    HStack {
-                                        // check purchased or not
-                                        Button(action: {
-                                            togglePurchased(item: item)
-                                        }) {
-                                            Image(systemName: purchasedItems.contains(item.id) ? "checkmark.circle.fill" : "circle")
-                                                .foregroundColor(purchasedItems.contains(item.id) ? .green : .black)
-                                        }
-                                        .frame(maxWidth: .infinity, alignment: .trailing)
-                                                                           
-                                        Button(action: {
-                                            deleteItem(item)
-                                        }) {
-                                            Image(systemName: "trash") // Delete icon
-                                                .foregroundColor(.red)
-                                        }
-                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    // check purchased or not
+                                    Button(action: {
+                                        togglePurchased(item: item)
+                                    }) {
+                                        Image(systemName: purchasedItems.contains(item.id) ? "checkmark.circle.fill" : "circle")
+                                            .foregroundColor(purchasedItems.contains(item.id) ? .green : .black)
                                     }
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                                                           
+                                    Button(action: {
+                                        deleteItem(item)
+                                    }) {
+                                        Image(systemName: "trash") // Delete icon
+                                            .foregroundColor(.red)
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                             }
-                            
-                            
-                        
+                        }
                     }
                 }
 //                .overlay(
@@ -162,19 +161,16 @@ struct AddGroceryView: View {
 //                        .stroke(.gray, lineWidth: 2)
 //                        .shadow(radius: 1)
 //                )
-//                
+//
                 HStack {
                     // Button to finish shopping
                     Button(action: {
                         finishShopping()
                     }) {
-                        
                         Text("Finish Shopping")
-                               
                     }
                     .foregroundColor(.black)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    
                     
                     // view history
                     NavigationLink(destination: HistoryView()
@@ -188,7 +184,7 @@ struct AddGroceryView: View {
             }
             .padding()
         }
-        .background(Color(hex:"#1C3144"))
+        .background(Color(hex: "#5998c5"))
     }
 
     // Function to toggle item purchase status

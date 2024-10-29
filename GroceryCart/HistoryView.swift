@@ -10,20 +10,34 @@ import SwiftUI
 struct HistoryView: View {
     @EnvironmentObject var historyManager: GroceryHistoryManager
     @State private var expandedDates: Set<Date> = []
+    @State private var showAlert = false
+    @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         VStack {
             // title
             HStack {
+                Button(action: {
+                    presentationMode.wrappedValue.dismiss()
+                }) {
+                    Image(systemName: "arrowshape.turn.up.left.fill")
+                        .font(.title)
+                        .foregroundColor(Color(hex: "EF7B45"))
+
+                }
+                .buttonStyle(PlainButtonStyle())
+                Spacer()
+
                 Text("Grocery Cart")
                     .font(.system(size: 32, weight: .bold))
-                    .foregroundColor(Color(hex:"#EF7B45"))
-                
+                    .foregroundColor(Color(hex: "#1C3144"))
+
                 Image(systemName: "cart.circle")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 36, height: 36)
-                    .foregroundColor(Color(hex:"#EF7B45"))
+                    .foregroundColor(Color(hex: "#1C3144"))
+                Spacer()
             }
 
             List {
@@ -136,20 +150,37 @@ struct HistoryView: View {
                     .shadow(radius: 1)
             )
 
+//            Button(action: {
+//                let today = Date().withoutTime()
+//                historyManager.clearHistory(for: today)
+//                historyManager.clearHistory()
+//            }) {
+//                Text("Clear All History")
+//                    .foregroundColor(.black)
+//            }
+
             Button(action: {
-                let today = Date().withoutTime()
-                historyManager.clearHistory(for: today)
+                showAlert = true
             }) {
                 Text("Clear All History")
                     .foregroundColor(.black)
             }
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("Are you sure you want to delete all items?"),
+                    //                            message: Text("Are you sure you want to delete all items?"),
+                    primaryButton: .cancel(),
+                    secondaryButton: .destructive(Text("Delete")) {
+                        historyManager.clearHistory()
+                    }
+                )
+            }
+
             .frame(maxWidth: .infinity, alignment: .center)
         }
         .padding()
-        .background(Color(hex:"#1C3144"))
-
+        .background(Color(hex: "#5998c5"))
     }
-    
 
     // Filter dates to include only those with items
     private func filteredDates() -> [Date] {
