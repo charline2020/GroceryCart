@@ -14,10 +14,13 @@ struct ContentView: View {
         VStack {
             AddGroceryView()
                 .environmentObject(historyManager)
+                .frame(width: 400, height: 600)
         }
 //        .background(Color(hex:"#1C3144"))
     }
+    
 }
+
 
 extension Date {
     func withoutTime() -> Date {

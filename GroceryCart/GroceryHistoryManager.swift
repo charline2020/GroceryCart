@@ -140,10 +140,13 @@ class GroceryHistoryManager: ObservableObject {
     }
 
     // Method to clear history items for a specific day
-    func clearHistory(for date: Date) {
-        let normalizedDate = date.withoutTime()
-        purchasedItems.removeValue(forKey: normalizedDate)
-        missingItems.removeValue(forKey: normalizedDate)
+//    func clearHistory(for date: Date) {
+    func clearHistory() {
+//        let normalizedDate = date.withoutTime()
+//        purchasedItems.removeValue(forKey: normalizedDate)
+//        missingItems.removeValue(forKey: normalizedDate)
+        purchasedItems.removeAll()
+        missingItems.removeAll()
         save()
     }
 }
