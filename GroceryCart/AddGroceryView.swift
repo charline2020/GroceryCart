@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 struct AddGroceryView: View {
     @State private var groceryName: String = ""
     @State private var groceryAmount: Int = 1
@@ -24,11 +25,14 @@ struct AddGroceryView: View {
                 HStack {
                     Text("Grocery Cart")
                         .font(.system(size: 32, weight: .bold))
+                        .foregroundColor(Color(hex:"#EF7B45"))
+
                     Image(systemName: "cart.circle")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 36, height: 36)
-                        .foregroundColor(.black)
+//                        .foregroundColor(.black)
+                        .foregroundColor(Color(hex:"#EF7B45"))
                 }
                 
                 // type what to buy
@@ -59,6 +63,7 @@ struct AddGroceryView: View {
                         }
                     })
                     {
+                        
                         // plus icon
                         Image(systemName: "plus.circle.fill")
                             .resizable()
@@ -66,7 +71,6 @@ struct AddGroceryView: View {
                             .frame(height: 25)
                             .foregroundColor(.gray)
                     }
-                   
                     .alert(isPresented: $showAlert) {
                         Alert(
                             title: Text("Alert"),
@@ -76,11 +80,12 @@ struct AddGroceryView: View {
                     
                 }
                 .background()
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(.gray, lineWidth: 2)
-                        .shadow(radius: 1)
-                )
+//                .overlay(
+//                    RoundedRectangle(cornerRadius: 8)
+//                        .stroke(.gray, lineWidth: 2)
+//                        .shadow(radius: 1)
+//                        .foregroundColor(.white)
+//                )
                 
                 // list all grocery
                 List {
@@ -152,21 +157,24 @@ struct AddGroceryView: View {
                         
                     }
                 }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 4)
-                        .stroke(.gray, lineWidth: 2)
-                        .shadow(radius: 1)
-                )
-                
+//                .overlay(
+//                    RoundedRectangle(cornerRadius: 4)
+//                        .stroke(.gray, lineWidth: 2)
+//                        .shadow(radius: 1)
+//                )
+//                
                 HStack {
                     // Button to finish shopping
                     Button(action: {
                         finishShopping()
                     }) {
+                        
                         Text("Finish Shopping")
-                            .foregroundColor(.black)
+                               
                     }
+                    .foregroundColor(.black)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    
                     
                     // view history
                     NavigationLink(destination: HistoryView()
@@ -175,12 +183,12 @@ struct AddGroceryView: View {
                         Text("View History")
                             .foregroundColor(.black)
                     }
-                    .frame(maxWidth: .infinity, alignment: .trailing)
+//                    .frame(maxWidth: .infinity, alignment: .trailing)
                 }
             }
-            
             .padding()
         }
+        .background(Color(hex:"#1C3144"))
     }
 
     // Function to toggle item purchase status

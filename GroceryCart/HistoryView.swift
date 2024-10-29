@@ -17,11 +17,13 @@ struct HistoryView: View {
             HStack {
                 Text("Grocery Cart")
                     .font(.system(size: 32, weight: .bold))
+                    .foregroundColor(Color(hex:"#EF7B45"))
+                
                 Image(systemName: "cart.circle")
                     .resizable()
                     .scaledToFit()
                     .frame(width: 36, height: 36)
-                    .foregroundColor(.black)
+                    .foregroundColor(Color(hex:"#EF7B45"))
             }
 
             List {
@@ -144,7 +146,10 @@ struct HistoryView: View {
             .frame(maxWidth: .infinity, alignment: .center)
         }
         .padding()
+        .background(Color(hex:"#1C3144"))
+
     }
+    
 
     // Filter dates to include only those with items
     private func filteredDates() -> [Date] {
